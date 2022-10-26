@@ -1,6 +1,7 @@
 package com.example.figurprogram.Figur;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class Linje extends Line implements KanTegnes {

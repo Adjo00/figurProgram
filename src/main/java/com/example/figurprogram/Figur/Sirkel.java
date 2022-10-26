@@ -11,7 +11,7 @@ public class Sirkel extends Circle implements KanTegnes {
     @Override
     public void dra(MouseEvent e) {
         setRadius(
-                Math.sqrt(( (e.getX() - getCenterX()) * (e.getX() - getCenterX()) )   +
-                        ( (e.getY() - getCenterY()) * (e.getY() - getCenterY()) ) ) );
+                Math.sqrt(( (e.getX() - getCenterX()) * (e.getX() - getCenterX()))   +
+                        (( e.getY() - getCenterY()) * (e.getY() - getCenterY()) )));
     }
 }
