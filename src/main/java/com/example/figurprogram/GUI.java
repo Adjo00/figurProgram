@@ -34,7 +34,6 @@ public class GUI extends Application {
         //Oppretter borderpane vindu
         BorderPane borderPane = new BorderPane();
 
-
         //Venstre side
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.TOP_CENTER);
@@ -70,11 +69,9 @@ public class GUI extends Application {
         });
         gridPane.add(blankUtKnapp, 0,6);
 
-
         gridPane.add(new Button("Flytt frem"), 0, 7);
         gridPane.add(new Button("Flytt bak"), 1, 7);
         gridPane.setStyle("-fx-background-color: grey;");
-
 
         // Midten
         pane = new Pane();
@@ -119,7 +116,10 @@ public class GUI extends Application {
     }
     public void tegneBrettKlikk(MouseEvent e) {
         // Actionevents og listeners
-        if (linjeKnapp.isSelected()) {
+        if (selectKnapp.isSelected()) {
+            System.out.print("test");
+        }
+        else if (linjeKnapp.isSelected()) {
             current = new Linje(e);
             pane.getChildren().add((Node) current);
         }
