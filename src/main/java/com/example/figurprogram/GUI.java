@@ -17,13 +17,14 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
-    RadioButton sirkelKnapp, linjeKnapp, rektangelKnapp, tekstKnapp;
+    RadioButton selectKnapp, sirkelKnapp, linjeKnapp, rektangelKnapp, tekstKnapp;
     Button blankUtKnapp;
     TextArea info;
     Pane pane;
     MouseEvent e;
     Color valgtFarge;
-    ColorPicker colorPicker;
+    public static ColorPicker colorFill = new ColorPicker();
+    public static ColorPicker colorStroke = new ColorPicker();
     KanTegnes current = new Linje();
 
     @Override
@@ -44,31 +45,34 @@ public class GUI extends Application {
 
         gridPane.add(new Label("Figurer"), 0,0);
 
+        selectKnapp = new RadioButton("Select");
+        selectKnapp.setToggleGroup(tg);
+        gridPane.add(selectKnapp, 0,1);
         sirkelKnapp = new RadioButton("Sirkel");
         sirkelKnapp.setToggleGroup(tg);
-        gridPane.add(sirkelKnapp, 0, 1);
+        gridPane.add(sirkelKnapp, 0, 2);
 
         linjeKnapp = new RadioButton("Rett linje");
         linjeKnapp.setToggleGroup(tg);
-        gridPane.add(linjeKnapp, 0, 2);
+        gridPane.add(linjeKnapp, 0, 3);
 
         rektangelKnapp = new RadioButton("Rektangel");
         rektangelKnapp.setToggleGroup(tg);
-        gridPane.add(rektangelKnapp, 0, 3);
+        gridPane.add(rektangelKnapp, 0, 4);
 
         tekstKnapp = new RadioButton("Tekst");
         tekstKnapp.setToggleGroup(tg);
-        gridPane.add(tekstKnapp, 0, 4);
+        gridPane.add(tekstKnapp, 0, 5);
 
         blankUtKnapp = new Button("Blank ut");
         blankUtKnapp.setOnAction(e -> {
             pane.getChildren().clear();
         });
-        gridPane.add(blankUtKnapp, 0,5);
+        gridPane.add(blankUtKnapp, 0,6);
 
 
-        gridPane.add(new Button("Flytt frem"), 0, 6);
-        gridPane.add(new Button("Flytt bak"), 1, 6);
+        gridPane.add(new Button("Flytt frem"), 0, 7);
+        gridPane.add(new Button("Flytt bak"), 1, 7);
         gridPane.setStyle("-fx-background-color: grey;");
 
 
@@ -94,12 +98,14 @@ public class GUI extends Application {
 
         fPane.setVgap(2);
         fPane.setHgap(5);
-        colorPicker = new ColorPicker(Color.BLACK);
-        colorPicker.setOnAction(e -> {
+        colorFill = new ColorPicker(Color.BLACK);
+        colorFill.setOnAction(e -> {
             byttFarge(e);
         });
-        fPane.add(colorPicker, 1, 4);
-
+        fPane.add(new Label("Fargefyll"), 1,2);
+        fPane.add(colorFill, 1, 3);
+        fPane.add(new Label("Fargestroke"), 1,4);
+        fPane.add(colorStroke, 1, 5);
 
         fPane.setStyle("-fx-background-color: green;");
         borderPane.setRight(fPane);
@@ -125,18 +131,18 @@ public class GUI extends Application {
             current = new Sirkel(e);
             pane.getChildren().add((Node) current);
         }
-        else if (tekstKnapp.isSelected()) {
-            current = new Tekst(e);
-            pane.getChildren().add((Node) current);
-        }
+//        else if (tekstKnapp.isSelected()) {
+//            current = new Tekst(e);
+//            pane.getChildren().add((Node) current);
+//        }
     }
     public void tegneBrettDra(MouseEvent e) {
         current.dra(e);
     }
 
     public void byttFarge(ActionEvent e) {
-        valgtFarge = colorPicker.getValue();
-        info.setText("Valgt farge: " + valgtFarge);
+        valgtFarge = colorFill.getValue();
+        info.setText("Valgt farge: " + colorFill);
     }
     public static void main(String[] args) {
         launch();

@@ -1,6 +1,5 @@
 module com.example.figurprogram {
     requires javafx.controls;
-    requires javafx.fxml;
 
 
     opens com.example.figurprogram to javafx.fxml;
