@@ -27,6 +27,8 @@ public class GUI extends Application {
     public static ColorPicker colorStroke = new ColorPicker();
     KanTegnes current = new Linje();
 
+    public static Slider linjeSlider;
+    TextField tekstFelt;
     @Override
     public void start(Stage vindu) {
 
@@ -63,14 +65,18 @@ public class GUI extends Application {
         tekstKnapp.setToggleGroup(tg);
         gridPane.add(tekstKnapp, 0, 5);
 
-        blankUtKnapp = new Button("Blank ut");
+        tekstFelt = new TextField();
+        tekstFelt.setPromptText("Skriv Tekst Her:");
+        gridPane.add(tekstFelt, 0, 6);
+
+        blankUtKnapp = new Button("Blank Ut");
         blankUtKnapp.setOnAction(e -> {
             pane.getChildren().clear();
         });
-        gridPane.add(blankUtKnapp, 0,6);
+        gridPane.add(blankUtKnapp, 0,7);
 
-        gridPane.add(new Button("Flytt frem"), 0, 7);
-        gridPane.add(new Button("Flytt bak"), 1, 7);
+        gridPane.add(new Button("Flytt Frem"), 0, 8);
+        gridPane.add(new Button("Flytt Bak"), 0, 9);
         gridPane.setStyle("-fx-background-color: grey;");
 
         // Midten
@@ -103,6 +109,14 @@ public class GUI extends Application {
         fPane.add(colorFill, 1, 3);
         fPane.add(new Label("Fargestroke"), 1,4);
         fPane.add(colorStroke, 1, 5);
+        fPane.add(new Label("Juster Linjebredde:"),1, 6);
+
+        linjeSlider = new Slider(0, 100, 0.5);
+        linjeSlider.setShowTickMarks(true);
+        linjeSlider.setShowTickLabels(true);
+        linjeSlider.setMajorTickUnit(10f);
+        linjeSlider.setBlockIncrement(0.1f);
+        fPane.add(linjeSlider, 1, 8 );
 
         fPane.setStyle("-fx-background-color: green;");
         borderPane.setRight(fPane);
@@ -131,16 +145,13 @@ public class GUI extends Application {
             current = new Sirkel(e);
             pane.getChildren().add((Node) current);
         }
-//        else if (tekstKnapp.isSelected()) {
-//            current = new Tekst(e);
-//            pane.getChildren().add((Node) current);
-//        }
+        else if (tekstKnapp.isSelected()) {
+           current = new Tekst(e);
+           pane.getChildren().add((Node) current);
+        }
     }
     public void tegneBrettDra(MouseEvent e) {
         current.dra(e);
-    }
-    public void tegneBrettSelect(MouseEvent e) {
-
     }
 
     public void byttFarge(ActionEvent e) {

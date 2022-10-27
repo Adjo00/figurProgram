@@ -9,6 +9,7 @@ public class Linje extends Line implements KanTegnes {
 
     public Linje(MouseEvent e) {
         super(e.getX(), e.getY(), e.getX(), e.getY());
+        setStrokeWidth(GUI.linjeSlider.getValue());
         setFill(GUI.colorFill.getValue());
         setStroke(GUI.colorStroke.getValue());
     }
