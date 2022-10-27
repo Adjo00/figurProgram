@@ -139,6 +139,9 @@ public class GUI extends Application {
     public void tegneBrettDra(MouseEvent e) {
         current.dra(e);
     }
+    public void tegneBrettSelect(MouseEvent e) {
+
+    }
 
     public void byttFarge(ActionEvent e) {
         valgtFarge = colorFill.getValue();
