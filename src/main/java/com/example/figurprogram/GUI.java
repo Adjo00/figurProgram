@@ -17,7 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
-    RadioButton selectKnapp, sirkelKnapp, linjeKnapp, rektangelKnapp, tekstKnapp;
+    RadioButton selectKnapp, sirkelKnapp, linjeKnapp, rektangelKnapp, tekstKnapp, flyttFrem, flyttBak;
     Button blankUtKnapp;
     TextArea info;
     Pane pane;
@@ -26,9 +26,11 @@ public class GUI extends Application {
     public static ColorPicker colorFill = new ColorPicker();
     public static ColorPicker colorStroke = new ColorPicker();
     KanTegnes current = new Linje();
+    public double startX, startY;
 
     public static Slider linjeSlider;
     TextField tekstFelt;
+    Node node;
     @Override
     public void start(Stage vindu) {
 
@@ -74,9 +76,12 @@ public class GUI extends Application {
             pane.getChildren().clear();
         });
         gridPane.add(blankUtKnapp, 0,7);
-
-        gridPane.add(new Button("Flytt Frem"), 0, 8);
-        gridPane.add(new Button("Flytt Bak"), 0, 9);
+        flyttFrem = new RadioButton("Flytt Frem");
+        flyttFrem.setToggleGroup(tg);
+        gridPane.add(flyttFrem, 0, 8);
+        flyttBak = new RadioButton("Flytt bak");
+        flyttBak.setToggleGroup(tg);
+        gridPane.add(flyttBak, 0, 9);
         gridPane.setStyle("-fx-background-color: grey;");
 
         // Midten
@@ -121,6 +126,7 @@ public class GUI extends Application {
         fPane.setStyle("-fx-background-color: green;");
         borderPane.setRight(fPane);
 
+//        fPane.getChildren().forEach(this::draTing);
         // Selve vinduet
         Scene scene = new Scene(borderPane, 1400, 800);
         vindu.setTitle("Paint");
@@ -129,9 +135,9 @@ public class GUI extends Application {
         vindu.show();
     }
     public void tegneBrettKlikk(MouseEvent e) {
-        // Actionevents og listeners
+        //Sjekker hvilken radiobutton som er valgt i gui
         if (selectKnapp.isSelected()) {
-            System.out.print("test");
+            draTing(pane, e);
         }
         else if (linjeKnapp.isSelected()) {
             current = new Linje(e);
@@ -149,6 +155,22 @@ public class GUI extends Application {
            current = new Tekst(e);
            pane.getChildren().add((Node) current);
         }
+        else if (flyttFrem.isSelected()) {
+            flyttFrem(e, node);
+        }
+    }
+    public void draTing(Node node, MouseEvent ev) {
+        node.setOnMousePressed(e -> {
+            startX = e.getSceneX() - node.getTranslateX();
+            startY = e.getSceneY() - node.getTranslateY();
+        });
+        node.setOnMouseDragged(e -> {
+            node.setTranslateX(e.getSceneX() - startX);
+            node.setTranslateY(e.getSceneY() - startY);
+        });
+    }
+    public void flyttFrem(MouseEvent e, Node node) {
+        ((Node)(e.getSource())).toFront();
     }
     public void tegneBrettDra(MouseEvent e) {
         current.dra(e);
