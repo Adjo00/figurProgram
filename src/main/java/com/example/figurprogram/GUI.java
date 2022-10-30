@@ -16,10 +16,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class GUI extends Application {
     RadioButton selectKnapp, sirkelKnapp, linjeKnapp, rektangelKnapp, tekstKnapp, flyttFrem, flyttBak;
     Button blankUtKnapp;
-    TextArea info;
+    TextArea info, guiFigurListe;
     Pane pane;
     MouseEvent e;
     Color valgtFarge;
@@ -27,8 +29,8 @@ public class GUI extends Application {
     public static ColorPicker colorStroke = new ColorPicker();
     KanTegnes current = new Linje();
     public double startX, startY;
-
-    public static Slider linjeSlider;
+    public static ArrayList figurer = new ArrayList();
+    public static Slider linjeSlider, tekstSlider;
     TextField tekstFelt;
     Node node;
     @Override
@@ -73,7 +75,7 @@ public class GUI extends Application {
 
         blankUtKnapp = new Button("Blank Ut");
         blankUtKnapp.setOnAction(e -> {
-            pane.getChildren().clear();
+            slettLister();
         });
         gridPane.add(blankUtKnapp, 0,7);
         flyttFrem = new RadioButton("Flytt Frem");
@@ -88,6 +90,10 @@ public class GUI extends Application {
         pane = new Pane();
         pane.setOnMousePressed(this::tegneBrettKlikk);
         pane.setOnMouseDragged(this::tegneBrettDra);
+//        pane.setOnMouseClicked(e -> {
+//            draTing(node, e);
+//        });
+
         //pane.setStyle("-fx-background-color: grey");
         pane.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
         borderPane.setCenter(pane);
@@ -103,6 +109,12 @@ public class GUI extends Application {
         info.setEditable(false);
         info.setText("Valgt farge: Svart");
         fPane.add(info, 1, 1);
+
+        guiFigurListe = new TextArea();
+        guiFigurListe.setPrefRowCount(8);
+        guiFigurListe.setPrefColumnCount(20);
+        guiFigurListe.setEditable(false);
+        fPane.add(guiFigurListe, 1, 9);
 
         fPane.setVgap(2);
         fPane.setHgap(5);
@@ -123,10 +135,17 @@ public class GUI extends Application {
         linjeSlider.setBlockIncrement(0.1f);
         fPane.add(linjeSlider, 1, 8 );
 
-        fPane.setStyle("-fx-background-color: green;");
+        tekstSlider = new Slider(5, 100, 0.5);
+        tekstSlider.setShowTickMarks(true);
+        tekstSlider.setShowTickLabels(true);
+        tekstSlider.setMajorTickUnit(10f);
+        tekstSlider.setBlockIncrement(0.1f);
+        fPane.add(tekstSlider, 1, 10);
+
+        fPane.setStyle("-fx-background-color: grey;");
         borderPane.setRight(fPane);
 
-//        fPane.getChildren().forEach(this::draTing);
+//        pane.getChildren().forEach(this::draTing);
         // Selve vinduet
         Scene scene = new Scene(borderPane, 1400, 800);
         vindu.setTitle("Paint");
@@ -134,51 +153,78 @@ public class GUI extends Application {
         vindu.setScene(scene);
         vindu.show();
     }
+        /*
+            Sjekker hvilken radiobutton som er selektert i gui, og utfører da deres oppgave utifra museklikk
+        */
     public void tegneBrettKlikk(MouseEvent e) {
-        //Sjekker hvilken radiobutton som er valgt i gui
+
         if (selectKnapp.isSelected()) {
-            draTing(pane, e);
+            musHentObjekt();
         }
         else if (linjeKnapp.isSelected()) {
             current = new Linje(e);
             pane.getChildren().add((Node) current);
+            setInfo();
         }
         else if (rektangelKnapp.isSelected()) {
             current = new Rektangel(e);
             pane.getChildren().add((Node) current);
+            setInfo();
         }
         else if (sirkelKnapp.isSelected()) {
             current = new Sirkel(e);
             pane.getChildren().add((Node) current);
+            setInfo();
         }
         else if (tekstKnapp.isSelected()) {
-           current = new Tekst(e);
+           current = new Tekst(e, tekstFelt.getText());
            pane.getChildren().add((Node) current);
+            setInfo();
         }
         else if (flyttFrem.isSelected()) {
             flyttFrem(e, node);
         }
+        else if (flyttBak.isSelected()) {
+            flyttBak(e, node);
+        }
     }
-    public void draTing(Node node, MouseEvent ev) {
-        node.setOnMousePressed(e -> {
-            startX = e.getSceneX() - node.getTranslateX();
-            startY = e.getSceneY() - node.getTranslateY();
+    public void draTing(Node node) {
+        node.setOnMousePressed(event -> {
+            startX = event.getSceneX();
+            startY = event.getSceneY();
         });
-        node.setOnMouseDragged(e -> {
-            node.setTranslateX(e.getSceneX() - startX);
-            node.setTranslateY(e.getSceneY() - startY);
+        node.setOnMouseDragged(event -> {
+            node.setLayoutX(event.getSceneX() - startX);
+            node.setLayoutY(event.getSceneY() - startY);
         });
     }
     public void flyttFrem(MouseEvent e, Node node) {
         ((Node)(e.getSource())).toFront();
     }
+    private void flyttBak(MouseEvent e, Node node) {
+        ((Node)(e.getSource())).toFront();
+    }
     public void tegneBrettDra(MouseEvent e) {
         current.dra(e);
     }
-
+    // Oppdaterer figurboksen til høyre for gui, lister opp hver figur som er satt inn
+    public void setInfo() {
+        int teller = figurer.size();
+        figurer.add(current);
+        guiFigurListe.appendText("Figur: " + figurer.get(teller) + "\n");
+    }
+    public void musHentObjekt() {
+        pane.setOnMouseClicked(e -> {
+            System.out.println("select");
+        });
+    }
     public void byttFarge(ActionEvent e) {
         valgtFarge = colorFill.getValue();
         info.setText("Valgt farge: " + colorFill);
+    }
+    public void slettLister() {
+        pane.getChildren().clear();
+        guiFigurListe.clear();
     }
     public static void main(String[] args) {
         launch();
