@@ -9,22 +9,26 @@ import javafx.scene.text.Text;
 
 public class Tekst extends Text implements KanTegnes {
     public String inputTekst;
+    @Override
+    public String navn() {
+        return "Tekst";
+    }
     public Tekst(MouseEvent e, String inputTekst) {
         super(e.getX(), e.getY(), inputTekst);
         this.inputTekst = inputTekst;
         setFill(GUI.colorFill.getValue());
         setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, GUI.tekstSlider.getValue()));
+        setOnMousePressed(this::treffFigur);
+        setOnMouseDragged(event -> {
+            if (!GUI.selectAktiv) return;
+            setX(event.getX());
+            setY(event.getY());
+        });
     }
     @Override
     public void dra(MouseEvent e) {
+        if (GUI.selectAktiv) return;
         setX(e.getX());
         setY(e.getY());
     }
-
-    @Override
-    public boolean treffFigur(double x, double y) {
-        return false;
-    }
-
-
 }

@@ -21,7 +21,8 @@ import java.util.ArrayList;
 public class GUI extends Application {
     RadioButton selectKnapp, sirkelKnapp, linjeKnapp, rektangelKnapp, tekstKnapp, flyttFrem, flyttBak;
     Button blankUtKnapp;
-    TextArea info, guiFigurListe;
+    TextArea guiFigurListe;
+    private static TextArea info = new TextArea();
     Pane pane;
     MouseEvent e;
     Color valgtFarge;
@@ -32,7 +33,9 @@ public class GUI extends Application {
     public static ArrayList figurer = new ArrayList();
     public static Slider linjeSlider, tekstSlider;
     TextField tekstFelt;
-    Node node;
+    public static KanTegnes valgt;
+    private static Label label = new Label("");
+    public static boolean selectAktiv = false;
     @Override
     public void start(Stage vindu) {
         //Oppretter borderpane vindu
@@ -67,6 +70,12 @@ public class GUI extends Application {
         tekstKnapp.setToggleGroup(tg);
         gridPane.add(tekstKnapp, 0, 5);
 
+        selectKnapp.setOnAction(this::radioButtonAction);
+        sirkelKnapp.setOnAction(this::radioButtonAction);
+        rektangelKnapp.setOnAction(this::radioButtonAction);
+        tekstKnapp.setOnAction(this::radioButtonAction);
+        linjeKnapp.setOnAction(this::radioButtonAction);
+
         tekstFelt = new TextField();
         tekstFelt.setPromptText("Skriv Tekst Her:");
         gridPane.add(tekstFelt, 0, 6);
@@ -88,11 +97,7 @@ public class GUI extends Application {
         pane = new Pane();
         pane.setOnMousePressed(this::tegneBrettKlikk);
         pane.setOnMouseDragged(this::tegneBrettDra);
-//        pane.setOnMouseClicked(e -> {
-//            draTing(node, e);
-//        });
 
-        //pane.setStyle("-fx-background-color: grey");
         pane.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
         borderPane.setCenter(pane);
         borderPane.setLeft(gridPane);
@@ -101,11 +106,9 @@ public class GUI extends Application {
         GridPane fPane = new GridPane();
         fPane.setPadding(new Insets(10.5, 12.5, 13.5, 14.5));
 
-        info = new TextArea();
         info.setPrefRowCount(8);
         info.setPrefColumnCount(20);
         info.setEditable(false);
-        info.setText("Valgt farge: Svart");
         fPane.add(info, 1, 1);
 
         guiFigurListe = new TextArea();
@@ -117,9 +120,6 @@ public class GUI extends Application {
         fPane.setVgap(2);
         fPane.setHgap(5);
         colorFill = new ColorPicker(Color.BLACK);
-        colorFill.setOnAction(e -> {
-            byttFarge(e);
-        });
         fPane.add(new Label("Fargefyll"), 1,2);
         fPane.add(colorFill, 1, 3);
         fPane.add(new Label("Fargestroke"), 1,4);
@@ -139,11 +139,12 @@ public class GUI extends Application {
         tekstSlider.setMajorTickUnit(10f);
         tekstSlider.setBlockIncrement(0.1f);
         fPane.add(tekstSlider, 1, 10);
+        fPane.add(label, 1, 11);
 
         fPane.setStyle("-fx-background-color: grey;");
         borderPane.setRight(fPane);
 
-        pane.getChildren().forEach(this::draTing);
+//        pane.getChildren().forEach(this::draTing);
         // Selve vinduet
         Scene scene = new Scene(borderPane, 1400, 800);
         vindu.setTitle("Paint");
@@ -151,13 +152,11 @@ public class GUI extends Application {
         vindu.setScene(scene);
         vindu.show();
     }
-        /*
-            Sjekker hvilken radiobutton som er selektert i gui, og utfører da deres oppgave utifra museklikk
-        */
+    //Sjekker hvilken radiobutton som er selektert i gui, og utfører da deres oppgave utifra museklikk
     public void tegneBrettKlikk(MouseEvent e) {
 
         if (selectKnapp.isSelected()) {
-            draTing(e);
+
         }
         else if (linjeKnapp.isSelected()) {
             current = new Linje(e);
@@ -186,27 +185,16 @@ public class GUI extends Application {
             flyttBak(e);
         }
     }
-    public void draTing(MouseEvent e) {
-        musHentObjekt(e);
-        node.setOnMousePressed(event -> {
-            startX = event.getScreenX();
-            startY = event.getScreenY();
-        });
-        node.setOnMouseDragged(event -> {
-            node.setLayoutX(event.getSceneX() - startX);
-            node.setLayoutY(event.getSceneY() - startY);
-        });
-    }
-    public musHentObjekt(MouseEvent e) {
-        pane.setOnMouseClicked(e -> {
+    public void musHentObjekt(MouseEvent e) {
+        pane.setOnMouseClicked(event -> {
             System.out.println("select");
         });
     }
     public void flyttFrem(MouseEvent e) {
-        ((Node)(e.getSource())).toFront();
+        System.out.println("frem");
     }
     private void flyttBak(MouseEvent e) {
-        ((Node)(e.getSource())).toFront();
+        System.out.println("bak");
     }
     public void tegneBrettDra(MouseEvent e) {
         current.dra(e);
@@ -217,13 +205,16 @@ public class GUI extends Application {
         figurer.add(current);
         guiFigurListe.appendText("Figur: " + figurer.get(teller) + "\n");
     }
-    public void byttFarge(ActionEvent e) {
-        valgtFarge = colorFill.getValue();
-        info.setText("Valgt farge: " + colorFill);
-    }
     public void slettLister() {
         pane.getChildren().clear();
         guiFigurListe.clear();
+    }
+    public static void velgFigur(KanTegnes figur) {
+        valgt = figur;
+        info.setText(valgt.navn());
+    }
+    public void radioButtonAction(ActionEvent e) {
+        selectAktiv = e.getSource() == selectKnapp;
     }
     public static void main(String[] args) {
         launch();
