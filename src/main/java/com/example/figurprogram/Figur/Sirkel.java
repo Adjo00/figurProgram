@@ -17,4 +17,10 @@ public class Sirkel extends Circle implements KanTegnes {
                 Math.sqrt(( (e.getX() - getCenterX()) * (e.getX() - getCenterX()))   +
                         (( e.getY() - getCenterY()) * (e.getY() - getCenterY()) )));
     }
+
+    @Override
+    public boolean treffFigur(double x, double y) {
+
+        return false;
+    }
 }

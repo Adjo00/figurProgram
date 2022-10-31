@@ -5,8 +5,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
 public class Rektangel extends Rectangle implements KanTegnes {
-
-
     double r1x = getX();
     double r1y = getY();
 
@@ -15,7 +13,6 @@ public class Rektangel extends Rectangle implements KanTegnes {
         setFill(GUI.colorFill.getValue());
         setStroke(GUI.colorStroke.getValue());
     }
-
     public Rektangel() { super(0,0,0,0); }
 
     @Override
@@ -36,6 +33,11 @@ public class Rektangel extends Rectangle implements KanTegnes {
             setY(r1y);
             setHeight(e.getY() - r1y);
         }
+    }
+
+    @Override
+    public boolean treffFigur(double x, double y) {
+        return false;
     }
 }
 

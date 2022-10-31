@@ -21,5 +21,10 @@ public class Tekst extends Text implements KanTegnes {
         setY(e.getY());
     }
 
+    @Override
+    public boolean treffFigur(double x, double y) {
+        return false;
+    }
+
 
 }

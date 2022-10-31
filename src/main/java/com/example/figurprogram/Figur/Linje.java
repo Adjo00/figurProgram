@@ -20,4 +20,9 @@ public class Linje extends Line implements KanTegnes {
         setEndX(e.getX());
         setEndY(e.getY());
     }
+
+    @Override
+    public boolean treffFigur(double x, double y) {
+        return false;
+    }
 }

@@ -6,6 +6,6 @@ import javafx.scene.paint.Color;
 
 public interface KanTegnes {
     void dra(MouseEvent e);
-    //void hentInfo();
+    boolean treffFigur(double x, double y);
 }
 

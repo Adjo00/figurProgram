@@ -35,8 +35,6 @@ public class GUI extends Application {
     Node node;
     @Override
     public void start(Stage vindu) {
-
-//        Color myColor = colorPicker.getValue();
         //Oppretter borderpane vindu
         BorderPane borderPane = new BorderPane();
 
@@ -145,7 +143,7 @@ public class GUI extends Application {
         fPane.setStyle("-fx-background-color: grey;");
         borderPane.setRight(fPane);
 
-//        pane.getChildren().forEach(this::draTing);
+        pane.getChildren().forEach(this::draTing);
         // Selve vinduet
         Scene scene = new Scene(borderPane, 1400, 800);
         vindu.setTitle("Paint");
@@ -159,7 +157,7 @@ public class GUI extends Application {
     public void tegneBrettKlikk(MouseEvent e) {
 
         if (selectKnapp.isSelected()) {
-            musHentObjekt();
+            draTing(e);
         }
         else if (linjeKnapp.isSelected()) {
             current = new Linje(e);
@@ -182,26 +180,32 @@ public class GUI extends Application {
             setInfo();
         }
         else if (flyttFrem.isSelected()) {
-            flyttFrem(e, node);
+            flyttFrem(e);
         }
         else if (flyttBak.isSelected()) {
-            flyttBak(e, node);
+            flyttBak(e);
         }
     }
-    public void draTing(Node node) {
+    public void draTing(MouseEvent e) {
+        musHentObjekt(e);
         node.setOnMousePressed(event -> {
-            startX = event.getSceneX();
-            startY = event.getSceneY();
+            startX = event.getScreenX();
+            startY = event.getScreenY();
         });
         node.setOnMouseDragged(event -> {
             node.setLayoutX(event.getSceneX() - startX);
             node.setLayoutY(event.getSceneY() - startY);
         });
     }
-    public void flyttFrem(MouseEvent e, Node node) {
+    public musHentObjekt(MouseEvent e) {
+        pane.setOnMouseClicked(e -> {
+            System.out.println("select");
+        });
+    }
+    public void flyttFrem(MouseEvent e) {
         ((Node)(e.getSource())).toFront();
     }
-    private void flyttBak(MouseEvent e, Node node) {
+    private void flyttBak(MouseEvent e) {
         ((Node)(e.getSource())).toFront();
     }
     public void tegneBrettDra(MouseEvent e) {
@@ -212,11 +216,6 @@ public class GUI extends Application {
         int teller = figurer.size();
         figurer.add(current);
         guiFigurListe.appendText("Figur: " + figurer.get(teller) + "\n");
-    }
-    public void musHentObjekt() {
-        pane.setOnMouseClicked(e -> {
-            System.out.println("select");
-        });
     }
     public void byttFarge(ActionEvent e) {
         valgtFarge = colorFill.getValue();
