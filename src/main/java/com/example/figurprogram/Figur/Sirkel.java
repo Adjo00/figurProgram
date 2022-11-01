@@ -19,6 +19,10 @@ public class Sirkel extends Circle implements KanTegnes {
             if (!GUI.selectAktiv) return;
             setCenterX(event.getX());
             setCenterY(event.getY());
+            setOnMousePressed(ev -> {
+                setFill(GUI.colorFill.getValue());
+                setStroke(GUI.colorStroke.getValue());
+            });
         });
     }
     @Override

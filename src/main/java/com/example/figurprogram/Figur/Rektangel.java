@@ -4,8 +4,6 @@ import com.example.figurprogram.GUI;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
-import static com.example.figurprogram.GUI.figurer;
-
 public class Rektangel extends Rectangle implements KanTegnes {
     double r1x = getX();
     double r1y = getY();
@@ -21,9 +19,13 @@ public class Rektangel extends Rectangle implements KanTegnes {
         setStroke(GUI.colorStroke.getValue());
         setOnMousePressed(this::treffFigur);
         setOnMouseDragged(event -> {
-            if (!GUI.selectAktiv) return;
-            setX(event.getX());
-            setY(event.getY());
+            if (!GUI.selectAktiv ) return;
+            setX(event.getX() - r1x/2);
+            setY(event.getY() - r1y/2);
+            setOnMousePressed(ev -> {
+                setFill(GUI.colorFill.getValue());
+                setStroke(GUI.colorStroke.getValue());
+            });
         });
     }
     public Rektangel() { super(0,0,0,0); }

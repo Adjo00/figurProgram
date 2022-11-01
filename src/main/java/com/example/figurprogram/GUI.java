@@ -22,19 +22,16 @@ public class GUI extends Application {
     RadioButton selectKnapp, sirkelKnapp, linjeKnapp, rektangelKnapp, tekstKnapp, flyttFrem, flyttBak;
     Button blankUtKnapp;
     TextArea guiFigurListe;
-    private static TextArea info = new TextArea();
+    public static TextArea info = new TextArea();
     Pane pane;
-    MouseEvent e;
-    Color valgtFarge;
     public static ColorPicker colorFill = new ColorPicker();
     public static ColorPicker colorStroke = new ColorPicker();
     KanTegnes current = new Linje();
-    public double startX, startY;
     public static ArrayList figurer = new ArrayList();
     public static Slider linjeSlider, tekstSlider;
     TextField tekstFelt;
     public static KanTegnes valgt;
-    private static Label label = new Label("");
+    public static Label label = new Label("");
     public static boolean selectAktiv = false;
     @Override
     public void start(Stage vindu) {
@@ -81,9 +78,7 @@ public class GUI extends Application {
         gridPane.add(tekstFelt, 0, 6);
 
         blankUtKnapp = new Button("Blank Ut");
-        blankUtKnapp.setOnAction(e -> {
-            slettLister();
-        });
+        blankUtKnapp.setOnAction(e -> slettLister());
         gridPane.add(blankUtKnapp, 0,7);
         flyttFrem = new RadioButton("Flytt Frem");
         flyttFrem.setToggleGroup(tg);
@@ -155,9 +150,7 @@ public class GUI extends Application {
     //Sjekker hvilken radiobutton som er selektert i gui, og utfører da deres oppgave utifra museklikk
     public void tegneBrettKlikk(MouseEvent e) {
 
-        if (selectKnapp.isSelected()) {
-
-        }
+        if (selectKnapp.isSelected()) {}
         else if (linjeKnapp.isSelected()) {
             current = new Linje(e);
             pane.getChildren().add((Node) current);
@@ -184,11 +177,6 @@ public class GUI extends Application {
         else if (flyttBak.isSelected()) {
             flyttBak(e);
         }
-    }
-    public void musHentObjekt(MouseEvent e) {
-        pane.setOnMouseClicked(event -> {
-            System.out.println("select");
-        });
     }
     public void flyttFrem(MouseEvent e) {
         System.out.println("frem");

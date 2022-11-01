@@ -23,6 +23,10 @@ public class Tekst extends Text implements KanTegnes {
             if (!GUI.selectAktiv) return;
             setX(event.getX());
             setY(event.getY());
+            setOnMousePressed(ev -> {
+                setFill(GUI.colorFill.getValue());
+                setStroke(GUI.colorStroke.getValue());
+            });
         });
     }
     @Override
