@@ -5,14 +5,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 
 public class Linje extends Line implements KanTegnes {
+    //Gir info om valgt figur
     @Override
     public String navn() {
-        return "Figur: " + "Linje" + "\n"
-                // + "Color: "+getFill()+"\n" // Det kommer null som resultat pga fill ikke blir brukt pÃ¥ linje
-                + "Stroke: "+getStroke()+"\n"
+        return    "Figur: " + "Linje" + "\n"
+                + "ColorFill" + GUI.colorFill.getValue() + "\n"
                 + "StrokeWidth: "+getStrokeWidth()+"\n"
-                + "PosX: " + getEndX()+"\n"
-                + "PosY: " + getEndY()+"\n";
+                + "StartPosX: "+getStartX()+"\n"
+                + "StartPosY: "+getStartY()+"\n"
+                + "EndPosX: " + getEndX()+"\n"
+                + "EndPosY: " + getEndY()+"\n";
     }
     public Linje(MouseEvent e) {
         super(e.getX(), e.getY(), e.getX(), e.getY());
@@ -20,6 +22,13 @@ public class Linje extends Line implements KanTegnes {
         setStroke(GUI.colorFill.getValue());
         setOnMousePressed(this::treffFigur);
         setOnMouseDragged(event -> {
+            GUI.info.setText("Figur: " + "Linje" + "\n"
+                    + "ColorFill" + GUI.colorFill.getValue() + "\n"
+                    + "StrokeWidth: "+getStrokeWidth()+"\n"
+                    + "StartPosX: "+getStartX()+"\n"
+                    + "StartPosY: "+getStartY()+"\n"
+                    + "EndPosX: " + getEndX()+"\n"
+                    + "EndPosY: " + getEndY()+"\n");
             if (!GUI.selectAktiv) return;
             setEndX(event.getX());
             setEndY(event.getY());
@@ -37,5 +46,12 @@ public class Linje extends Line implements KanTegnes {
         if (GUI.selectAktiv) return;
         setEndX(e.getX());
         setEndY(e.getY());
+        GUI.info.setText("Figur: " + "Linje" + "\n"
+                + "ColorFill" + GUI.colorFill.getValue() + "\n"
+                + "StrokeWidth: "+getStrokeWidth()+"\n"
+                + "StartPosX: "+getStartX()+"\n"
+                + "StartPosY: "+getStartY()+"\n"
+                + "EndPosX: " + getEndX()+"\n"
+                + "EndPosY: " + getEndY()+"\n");
     }
 }

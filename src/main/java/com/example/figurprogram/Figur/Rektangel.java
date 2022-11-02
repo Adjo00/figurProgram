@@ -8,6 +8,7 @@ public class Rektangel extends Rectangle implements KanTegnes {
     double r1x = getX();
     double r1y = getY();
 
+    //Gir info om valgt figur
     @Override
     public String navn() {
         return "Figur: " + "Rektangel" + "\n"
@@ -24,12 +25,19 @@ public class Rektangel extends Rectangle implements KanTegnes {
         setStroke(GUI.colorStroke.getValue());
         setOnMousePressed(this::treffFigur);
         setOnMouseDragged(event -> {
+            GUI.info.setText("Figur: " + "Rektangel" + "\n"
+                    + "Color: "+ GUI.colorFill.getValue()+"\n"
+                    + "Stroke: "+ GUI.colorStroke.getValue()+"\n"
+                    + "StrokeWidth: "+getStrokeWidth()+"\n"
+                    + "PosX: "+ getX()+"\n"
+                    + "PosY: "+ getY()+"\n");
             if (!GUI.selectAktiv ) return;
             setX(event.getX() - r1x/2);
             setY(event.getY() - r1y/2);
             setOnMousePressed(ev -> {
                 setFill(GUI.colorFill.getValue());
                 setStroke(GUI.colorStroke.getValue());
+
             });
         });
     }
@@ -38,6 +46,12 @@ public class Rektangel extends Rectangle implements KanTegnes {
     @Override
     public void dra(MouseEvent e) {
         if (GUI.selectAktiv) return;
+        GUI.info.setText("Figur: " + "Rektangel" + "\n"
+                + "Color: "+getFill()+"\n"
+                + "Stroke: "+getStroke()+"\n"
+                + "StrokeWidth: "+getStrokeWidth()+"\n"
+                + "PosX: "+ getX()+"\n"
+                + "PosY: "+ getY()+"\n");
         double deltaX = e.getX() - r1x;
         double deltaY = e.getY() - r1y;
         if(deltaX < 0) {

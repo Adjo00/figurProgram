@@ -9,12 +9,11 @@ import javafx.scene.text.Text;
 
 public class Tekst extends Text implements KanTegnes {
     public String inputTekst;
+    //Gir info om valgt figur
     @Override
     public String navn() {
-        return "Figur: " + "Tekst" + "\n"
-                + "Color: "+ getFill()+"\n"
-                + "Stroke: "+ getStroke()+"\n"
-                + "StrokeWidth: "+ getStrokeWidth()+"\n"
+        return    "Figur: Tekst" + "\n"
+                + "Farge: "+ getFill()+"\n"
                 + "PosX: "+ getX()+"\n"
                 + "PosY: "+ getY()+"\n";
     }
