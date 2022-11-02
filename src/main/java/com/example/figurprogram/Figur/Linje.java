@@ -7,7 +7,12 @@ import javafx.scene.shape.Line;
 public class Linje extends Line implements KanTegnes {
     @Override
     public String navn() {
-        return "Linje";
+        return "Figur: " + "Linje" + "\n"
+                // + "Color: "+getFill()+"\n" // Det kommer null som resultat pga fill ikke blir brukt pÃ¥ linje
+                + "Stroke: "+getStroke()+"\n"
+                + "StrokeWidth: "+getStrokeWidth()+"\n"
+                + "PosX: " + getEndX()+"\n"
+                + "PosY: " + getEndY()+"\n";
     }
     public Linje(MouseEvent e) {
         super(e.getX(), e.getY(), e.getX(), e.getY());

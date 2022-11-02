@@ -11,7 +11,12 @@ public class Tekst extends Text implements KanTegnes {
     public String inputTekst;
     @Override
     public String navn() {
-        return "Tekst";
+        return "Figur: " + "Tekst" + "\n"
+                + "Color: "+ getFill()+"\n"
+                + "Stroke: "+ getStroke()+"\n"
+                + "StrokeWidth: "+ getStrokeWidth()+"\n"
+                + "PosX: "+ getX()+"\n"
+                + "PosY: "+ getY()+"\n";
     }
     public Tekst(MouseEvent e, String inputTekst) {
         super(e.getX(), e.getY(), inputTekst);

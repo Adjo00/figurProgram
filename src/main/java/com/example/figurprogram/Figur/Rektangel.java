@@ -10,7 +10,12 @@ public class Rektangel extends Rectangle implements KanTegnes {
 
     @Override
     public String navn() {
-        return "Rektangel";
+        return "Figur: " + "Rektangel" + "\n"
+                + "Color: "+getFill()+"\n"
+                + "Stroke: "+getStroke()+"\n"
+                + "StrokeWidth: "+getStrokeWidth()+"\n"
+                + "PosX: "+ getX()+"\n"
+                + "PosY: "+ getY()+"\n";
     }
 
     public Rektangel(MouseEvent e) {

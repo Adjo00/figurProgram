@@ -8,7 +8,14 @@ public class Sirkel extends Circle implements KanTegnes {
 
     @Override
     public String navn() {
-        return "Sirkel";
+        return "Sirkel" + "\n"
+                + "Stroke" + getStroke() + "\n"
+                + "ColorFill" + getFill() + "\n"
+                + "StrokeWidth: " + getStrokeWidth() + "\n"
+                + "PosX: " + getCenterX() + "\n"
+                + "PosY: " + getCenterY() + "\n"
+                + "Radius: " + getRadius() + "\n"
+                + "Area: " + Math.PI * getRadius() * getRadius();
     }
     public Sirkel(MouseEvent e) {
         super(e.getX(), e.getY(), 0);
@@ -22,7 +29,9 @@ public class Sirkel extends Circle implements KanTegnes {
             setOnMousePressed(ev -> {
                 setFill(GUI.colorFill.getValue());
                 setStroke(GUI.colorStroke.getValue());
+
             });
+            navn();
         });
     }
     @Override
