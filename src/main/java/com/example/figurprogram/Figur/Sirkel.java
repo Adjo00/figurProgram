@@ -10,26 +10,27 @@ public class Sirkel extends Circle implements KanTegnes {
     public String navn() {
         return "Sirkel" + "\n"
                 + "Stroke" + getStroke() + "\n"
-                + "ColorFill" + getFill() + "\n"
-                + "StrokeWidth: " + getStrokeWidth() + "\n"
+                + "Fargefyll" + getFill() + "\n"
+                + "Strokebredde: " + getStrokeWidth() + "\n"
                 + "PosX: " + getCenterX() + "\n"
                 + "PosY: " + getCenterY() + "\n"
                 + "Radius: " + getRadius() + "\n"
-                + "Area: " + Math.PI * getRadius() * getRadius();
+                + "Areal: " + Math.PI * getRadius() * getRadius();
     }
     public Sirkel(MouseEvent e) {
+        // Når figur lages, henter den fyllfarge, strokefarge fra colorpicker i gui.
         super(e.getX(), e.getY(), 0);
         setFill(GUI.colorFill.getValue());
         setStroke(GUI.colorStroke.getValue());
         setOnMousePressed(this::treffFigur);
         setOnMouseDragged(event -> {
             GUI.info.setText("Stroke" + getStroke() + "\n"
-                    + "ColorFill" + getFill() + "\n"
-                    + "StrokeWidth: " + getStrokeWidth() + "\n"
+                    + "Fargefyll" + getFill() + "\n"
+                    + "Strokebredde: " + getStrokeWidth() + "\n"
                     + "PosX: " + getCenterX() + "\n"
                     + "PosY: " + getCenterY() + "\n"
                     + "Radius: " + getRadius() + "\n"
-                    + "Area: " + Math.PI * getRadius() * getRadius());
+                    + "Areal: " + Math.PI * getRadius() * getRadius());
             if (!GUI.selectAktiv) return;
             setCenterX(event.getX());
             setCenterY(event.getY());
@@ -37,18 +38,20 @@ public class Sirkel extends Circle implements KanTegnes {
                 setFill(GUI.colorFill.getValue());
                 setStroke(GUI.colorStroke.getValue());
             });
-            navn();
         });
     }
     @Override
     public void dra(MouseEvent e) {
+        // Håndterer drafunksjonen når man tegner rektangel
         if (GUI.selectAktiv) return;
         setRadius(
                 Math.sqrt(( (e.getX() - getCenterX()) * (e.getX() - getCenterX()))   +
                         (( e.getY() - getCenterY()) * (e.getY() - getCenterY()) )));
-        GUI.info.setText("Stroke" + getStroke() + "\n"
-                + "ColorFill" + getFill() + "\n"
-                + "StrokeWidth: " + getStrokeWidth() + "\n"
+        GUI.info.setText(
+                "Figur: Tekst" + "\n"
+                + "Stroke" + getStroke() + "\n"
+                + "Fargefyll" + getFill() + "\n"
+                + "Strokebredde: " + getStrokeWidth() + "\n"
                 + "PosX: " + getCenterX() + "\n"
                 + "PosY: " + getCenterY() + "\n"
                 + "Radius: " + getRadius() + "\n"

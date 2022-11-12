@@ -15,7 +15,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
